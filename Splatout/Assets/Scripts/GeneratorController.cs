@@ -15,11 +15,12 @@ public class GeneratorController : MonoBehaviour {
     Transform sphereParent;
 
     private void Awake() {
-        Application.targetFrameRate = 60;
         runtimeInst = this;
     }
 
     private void Start() {
+
+        Application.targetFrameRate = 300;
 
         sphereParent = new GameObject("Sphere Parent").transform;
 

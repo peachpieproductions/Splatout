@@ -54,7 +54,7 @@ public class InteractableSphere : MonoBehaviour {
         while (true) {
 
             for (int i = lines.Count - 1; i >= 0; i--) {
-                if (Vector3.Distance(transform.position, lines[i].connectedSphere.transform.position) > 3f) {
+                if (Vector3.Distance(transform.position, lines[i].connectedSphere.transform.position) > 4.5f) {
                     Destroy(lines[i].line.gameObject);
                     GeneratorController.runtimeInst.lines.Remove(lines[i]);
                     lines.RemoveAt(i);
@@ -77,7 +77,7 @@ public class InteractableSphere : MonoBehaviour {
 
             if (lines.Count < 1 && GeneratorController.runtimeInst.lines.Count < GeneratorController.runtimeInst.linesLimit) {
 
-                var spheres = Physics.SphereCastAll(transform.position, 2f, Vector3.up, .01f);
+                var spheres = Physics.SphereCastAll(transform.position, 4f, Vector3.up, .01f);
 
                 foreach (RaycastHit hit in spheres) {
                     var sphere = hit.transform.GetComponent<InteractableSphere>();
