@@ -112,9 +112,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6671efbe21ab96941b5a206f3607431c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 1
+  linePrefab: {fileID: 120852133604629614, guid: f98b9257a1a329c419b2a4fa63c96fd6,
+    type: 2}
+  minSpeed: 2.5
   maxSpeed: 5
   angularSpeed: 0.05
+  lines: []
 --- !u!135 &135668105402377848
 SphereCollider:
   m_ObjectHideFlags: 1
