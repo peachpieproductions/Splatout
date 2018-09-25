@@ -56,6 +56,7 @@ public class InteractableSphere : MonoBehaviour {
             for (int i = lines.Count - 1; i >= 0; i--) {
                 if (Vector3.Distance(transform.position, lines[i].connectedSphere.transform.position) > 3f) {
                     Destroy(lines[i].line.gameObject);
+                    GeneratorController.runtimeInst.lines.Remove(lines[i]);
                     lines.RemoveAt(i);
                 } else {
                     lines[i].line.material.color = mat.color;
@@ -74,7 +75,7 @@ public class InteractableSphere : MonoBehaviour {
 
         while (true) {
 
-            if (lines.Count < 1) {
+            if (lines.Count < 1 && GeneratorController.runtimeInst.lines.Count < GeneratorController.runtimeInst.linesLimit) {
 
                 var spheres = Physics.SphereCastAll(transform.position, 2f, Vector3.up, .01f);
 
@@ -93,6 +94,7 @@ public class InteractableSphere : MonoBehaviour {
                             lineRen.SetPosition(0, transform.position);
                             lineRen.SetPosition(1, sphere.transform.position);
                             lines.Add(newLine);
+                            GeneratorController.runtimeInst.lines.Add(newLine);
                         }
                     }
                 }

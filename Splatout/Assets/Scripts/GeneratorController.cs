@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class GeneratorController : MonoBehaviour {
 
+    public static GeneratorController runtimeInst;
     public GameObject spherePrefab;
     public GameObject sphereContainer;
     public int spawnAmount;
     public float spawnRadius;
+    public List<InteractableSphere.LineConnection> lines = new List<InteractableSphere.LineConnection>();
+    public int linesLimit;
 
     Transform sphereParent;
+
+    private void Awake() {
+        Application.targetFrameRate = 60;
+        runtimeInst = this;
+    }
 
     private void Start() {
 
@@ -19,19 +27,20 @@ public class GeneratorController : MonoBehaviour {
             var newSphereInst = Instantiate(spherePrefab, sphereParent);
             newSphereInst.transform.position = Random.insideUnitSphere * spawnRadius;
         }
+
     }
 
     private void Update() {
         
         if (Input.GetMouseButton(0)) {
 
-            var touchWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 15);
+            var touchWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition + Vector3.forward * 10);
 
-            var spheres = Physics.SphereCastAll(touchWorldPos + Vector3.down * 2.5f, 5, Vector3.up);
+            var spheres = Physics.SphereCastAll(touchWorldPos, 4, Vector3.forward, 50f);
 
             foreach(RaycastHit hit in spheres) {
                 var rb = hit.transform.GetComponent<Rigidbody>();
-                if (rb) rb.velocity += (touchWorldPos - hit.transform.position) * Time.deltaTime * 100;
+                if (rb) rb.velocity += (touchWorldPos - hit.transform.position) * Time.deltaTime * 50;
             }
 
         }

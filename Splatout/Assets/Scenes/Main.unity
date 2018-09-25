@@ -5238,6 +5238,8 @@ MonoBehaviour:
   sphereContainer: {fileID: 0}
   spawnAmount: 100
   spawnRadius: 1
+  lines: []
+  linesLimit: 250
 --- !u!4 &1552120350
 Transform:
   m_ObjectHideFlags: 0
