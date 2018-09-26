@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 27421536}
   - component: {fileID: 27421535}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: BlockingSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5112,7 +5112,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 379e7a65f74567f4f92c05c7f28216bd, type: 3}
       propertyPath: m_Name
-      value: Container
+      value: SphereContainer
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: 379e7a65f74567f4f92c05c7f28216bd, type: 3}
       propertyPath: m_Enabled
