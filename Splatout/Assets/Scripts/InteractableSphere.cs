@@ -27,7 +27,7 @@ public class InteractableSphere : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         //rb.velocity = transform.forward * speed;
 
-        StartCoroutine(ColorShift());
+        //StartCoroutine(ColorShift());
         StartCoroutine(GenerateLines());
         StartCoroutine(UpdateLines());
     }
@@ -59,7 +59,7 @@ public class InteractableSphere : MonoBehaviour {
                     GeneratorController.runtimeInst.lines.Remove(lines[i]);
                     lines.RemoveAt(i);
                 } else {
-                    lines[i].line.material.color = mat.color;
+                    //lines[i].line.material.color = mat.color;
                 }
             }
 
@@ -90,7 +90,7 @@ public class InteractableSphere : MonoBehaviour {
                             var lineRen = Instantiate(linePrefab);
                             newLine.line = lineRen;
                             lineRen.useWorldSpace = true;
-                            lineRen.material.color = mat.color;
+                            //lineRen.material.color = mat.color;
                             lineRen.SetPosition(0, transform.position);
                             lineRen.SetPosition(1, sphere.transform.position);
                             lines.Add(newLine);
@@ -108,7 +108,7 @@ public class InteractableSphere : MonoBehaviour {
     }
 
     IEnumerator ColorShift() {
-
+        
         while (true) {
 
             var col = mat.color;
@@ -121,7 +121,7 @@ public class InteractableSphere : MonoBehaviour {
             yield return new WaitForSeconds((6f - xVel) * .05f);
 
         }
-
+        
     }
 
 
