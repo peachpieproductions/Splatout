@@ -10,6 +10,7 @@ public class InteractableSphere : MonoBehaviour {
         public InteractableSphere connectedSphere;
     }
 
+    public Gradient lineRendererGradientProfile;
     public LineRenderer linePrefab;
     public float minSpeed = 1;
     public float maxSpeed = 5;
@@ -30,6 +31,16 @@ public class InteractableSphere : MonoBehaviour {
         //StartCoroutine(ColorShift());
         StartCoroutine(GenerateLines());
         StartCoroutine(UpdateLines());
+
+        /*int colorSamples = 7;
+        GradientColorKey[] colors = new GradientColorKey[colorSamples];
+        for(int i = 0; i < colorSamples; i++) {
+            colors[i].color = Color.HSVToRGB((1f / colorSamples) * i + .4f, 1, 1);
+            colors[i].time = (1f / colorSamples) * i + .05f;
+            Debug.Log(colors[i].time);
+        }
+        lineRendererGradientProfile.colorKeys = colors;*/
+
     }
 
     private void FixedUpdate() {
@@ -60,6 +71,8 @@ public class InteractableSphere : MonoBehaviour {
                     lines.RemoveAt(i);
                 } else {
                     //lines[i].line.material.color = mat.color;
+                    lines[i].line.startColor = lineRendererGradientProfile.Evaluate((lines[i].line.GetPosition(0).x + 15) / 30f);
+                    lines[i].line.endColor = lineRendererGradientProfile.Evaluate((lines[i].line.GetPosition(1).x + 15) / 30f);
                 }
             }
 
@@ -93,6 +106,8 @@ public class InteractableSphere : MonoBehaviour {
                             //lineRen.material.color = mat.color;
                             lineRen.SetPosition(0, transform.position);
                             lineRen.SetPosition(1, sphere.transform.position);
+                            lineRen.startColor = lineRendererGradientProfile.Evaluate((lineRen.GetPosition(0).x + 15) / 30f);
+                            lineRen.endColor = lineRendererGradientProfile.Evaluate((lineRen.GetPosition(1).x + 15) / 30f);
                             lines.Add(newLine);
                             GeneratorController.runtimeInst.lines.Add(newLine);
                         }
