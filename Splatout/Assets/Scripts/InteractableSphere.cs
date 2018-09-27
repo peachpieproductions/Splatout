@@ -16,6 +16,8 @@ public class InteractableSphere : MonoBehaviour {
     public float maxSpeed = 5;
     public float angularSpeed = 3;
     public List<LineConnection> lines = new List<LineConnection>();
+    public bool splat;
+    public Vector2 splatLocation;
 
     Rigidbody rb;
     float speed;
@@ -33,15 +35,23 @@ public class InteractableSphere : MonoBehaviour {
 
     private void FixedUpdate() {
 
+        if (splat) {
+            rb.velocity += (Camera.main.transform.position - transform.position) * Time.deltaTime * 3;
+        }
+
         //Sphere Velocity
-        rb.velocity += transform.forward * speed * Time.deltaTime * .25f;
-        var horizontalMagnitude = new Vector3(transform.position.x, 0, transform.position.z * 1.5f).magnitude;
-        if (horizontalMagnitude > 10f) rb.velocity += -transform.position * Time.deltaTime * .025f;
-        var verticalMagnitude = new Vector3(0, transform.position.y, transform.position.z * 1.5f).magnitude;
-        if (verticalMagnitude > 6f) rb.velocity += -transform.position * Time.deltaTime * .04f;
-        if (rb.velocity.magnitude > speed) rb.velocity = rb.velocity.normalized * speed;
-        rb.angularVelocity += new Vector3(Random.Range(-angularSpeed, angularSpeed), 
-            Random.Range(-angularSpeed, angularSpeed), Random.Range(-angularSpeed, angularSpeed));
+        if (!splat) {
+            rb.velocity += transform.forward * speed * Time.deltaTime * .25f;
+            var horizontalMagnitude = new Vector3(transform.position.x, 0, transform.position.z * 1.5f).magnitude;
+            if (horizontalMagnitude > 10f) rb.velocity += -transform.position * Time.deltaTime * .025f;
+            var verticalMagnitude = new Vector3(0, transform.position.y, transform.position.z * 1.5f).magnitude;
+            if (verticalMagnitude > 6f) rb.velocity += -transform.position * Time.deltaTime * .04f;
+            rb.angularVelocity += new Vector3(Random.Range(-angularSpeed, angularSpeed),
+                Random.Range(-angularSpeed, angularSpeed), Random.Range(-angularSpeed, angularSpeed));
+            if (rb.velocity.magnitude > speed) rb.velocity = rb.velocity.normalized * speed;
+        }
+        
+        
 
         //Update Line Positions
         foreach(LineConnection l in lines) {
@@ -76,7 +86,7 @@ public class InteractableSphere : MonoBehaviour {
 
         yield return null;
 
-        while (true) {
+        while (true && !splat) {
 
             if (lines.Count < 3 && GeneratorController.runtimeInst.lines.Count < GeneratorController.runtimeInst.linesLimit) {
                 
@@ -85,7 +95,7 @@ public class InteractableSphere : MonoBehaviour {
                 foreach (RaycastHit hit in spheres) {
                     var sphere = hit.transform.GetComponent<InteractableSphere>();
                     if (sphere) {
-                        if (sphere == this || sphere.lines.Count > 2) continue;
+                        if (sphere == this || sphere.lines.Count > 2 || sphere.splat) continue;
                         bool foundAttached = false;
                         for (int i = 0; i < sphere.lines.Count; i++) { if (sphere.lines[i].connectedSphere == this) { foundAttached = true; break; } }
                         if (foundAttached) continue;
