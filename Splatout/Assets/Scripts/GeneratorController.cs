@@ -14,6 +14,7 @@ public class GeneratorController : MonoBehaviour {
     public List<InteractableSphere.LineConnection> lines = new List<InteractableSphere.LineConnection>();
     public int linesLimit;
     public Gradient splatGradient;
+    public GameObject fullscreenText;
     Vector3 touchWorldPos;
     Vector3 touchPos;
 
@@ -39,6 +40,13 @@ public class GeneratorController : MonoBehaviour {
     }
 
     private void Update() {
+
+        if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Escape) && Screen.fullScreen) {
+
+            Screen.fullScreen = !Screen.fullScreen;
+            fullscreenText.SetActive(!Screen.fullScreen);
+
+        }
         
         if (Input.GetMouseButton(0)) {
 
